@@ -43,13 +43,20 @@
     <p class="lead">
       {% if is_logged_in %}
         Welcome! {{first_name}}
+        {% if not is_driver %}
+          <br>Want to become a driver?
+          <br><a href="/driver/register" class="btn btn-lg btn-secondary fw-bold border-white bg-white">Register as a driver</a>
+          <br>
+      {% endif %}
       {% else %}
         <a href="/login" class="btn btn-lg btn-secondary fw-bold border-white bg-white">Login</a>
-        <a href="/login/register" class="btn btn-lg btn-secondary fw-bold border-white bg-white">register</a>
+        <a href="/login/register" class="btn btn-lg btn-secondary fw-bold border-white bg-white">Register</a>
       {% endif %}
+
     </p>
     <p class="lead">
       {% if is_logged_in %}
+        <a href="/login/editInfo" class="btn btn-lg btn-secondary fw-bold border-white bg-white">EditInfo</a>
         <a href="/login/logout" class="btn btn-lg btn-secondary fw-bold border-white bg-white">Logout</a>
       {% endif %}
     </p>
