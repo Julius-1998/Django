@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<br>
+<h1><center>Order Information</center></h1>
+<table class="table table-dark">
+  <tbody>
+    <tr>
+      <th scope="row">Startpoint</th>
+      <td>{{ object.startpoint }}</td>
+    </tr>
+    <tr>
+      <th scope="row">Destination</th>
+      <td>{{ object.destination }}</td>
+    </tr>
+    <tr>
+      <th scope="row Time">Arrival Time</th>
+      <td>{{ object.requiredArrival }}</td>
+    </tr>
+  <tr>
+      <th scope="row">Passenger Amount</th>
+      <td>{{ object.numPassengers }}</td>
+  </tr>
+  <tr>
+      <th scope="row">Status</th>
+      <td>{{ object.status }}</td>
+  </tr>
+  <tr>
+      <th scope="row">Special Request</th>
+      <td>{{ object.specialRequest }}</td>
+  </tr>
+  </tbody>
+</table>
+
+{% if driver %}
+<h1><center>Driver Information</center></h1>
+<table class="table table-dark">
+  <tbody>
+    <tr>
+      <th scope="row">Driver</th>
+      <td>{{ driver.fullName }}</td>
+    </tr>
+    <tr>
+      <th scope="row">License</th>
+      <td>{{ driver.carNum }}</td>
+    </tr>
+    <tr>
+      <th scope="row Time">Vehicle Type</th>
+      <td>{{ driver.vehicleType }}</td>
+    </tr>
+  </tbody>
+</table>
+{% else %}
+<h1><center>Not Confirmed</center></h1>
+{% endif %}
+
+{% if sharer %}
+<h1><center>Sharer Information</center></h1>
+<table class="table table-dark">
+  <tbody>
+    <tr>
+      <th scope="row">Sharer</th>
+      <td>{{ sharer.username }}</td>
+    </tr>
+    <tr>
+      <th scope="row">Contact Information</th>
+      <td>{{ sharer.email }}</td>
+    </tr>
+  </tbody>
+</table>
+{% else %}
+<h1><center>No Ride Sharer</center></h1>
+{% endif %}
+
+
+{% if object.status == 'non-confirmed' %}
+<a href="{% url 'orders:order-update' object.id%}"><center>Edit</center></a>
+{% else %}
+<br>
+<h2><center>Order is confirmed</center></h2>
+{% endif %}
+
+{% endblock %}
