@@ -47,3 +47,8 @@ class Ride(models.Model):
 
     def __str__(self):
         return self.destination
+
+
+class ShareInfo(models.Model):
+    ride = models.ForeignKey(Ride, on_delete=models.CASCADE)
+    sharer = models.ForeignKey(User, on_delete=models.CASCADE)

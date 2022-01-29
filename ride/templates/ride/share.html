@@ -5,9 +5,36 @@
     <title>This is the share Page</title>
 </head>
 <body>
-<table class="table table-dark table-striped">
-  ...
+<form action="" method="post">
+    {% csrf_token %}
+    {{form}}
+    <input type="submit" value="submit"></input>
+</form>
+
+{% if rides %}
+<table>
+    <tr>
+        <th>Vehicle</th>
+        <th>Arrive time</th>
+        <th>Pick up location</th>
+        <th>Passenger number</th>
+        <th>Join?</th>
+    </tr>
+        {% for ride in rides %}
+            <tr>
+                <td>{{ride.vehicle_type}}</td>
+                <td>{{ride.arrive_time}}</td>
+                <td>{{ride.pick_up_location}}</td>
+                <td>{{ride.passenger_number}}</td>
+                <td><a href="/ride/joinRide/{{ride.id}}/{{num}}">Join!</a></td>
+            </tr>
+        {% endfor %}
+
 </table>
+{% else %}
+    <p>No rides are available.</p>
+{% endif %}
 
 </body>
+
 </html>
