@@ -6,7 +6,7 @@ from django.views.generic import CreateView
 
 import homepage
 from driver.models import Driver
-from .models import Ride, Vehicle
+from .models import Ride
 from .forms import RideForm
 
 
@@ -27,6 +27,7 @@ class ride_create(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.ownerName = self.request.user.username
+        form.save()
         # return super().form_valid(form)
         return redirect(homepage.views.homepage)
 
@@ -42,7 +43,7 @@ def dashboard(request):
     def infer_allowed_statuses(request):
         if len(request.GET) == 0:
             try:
-                vehicle = Vehicle.objects.get(driver=user_object)
+                driver = Driver.objects.get(driver=user_object)
                 return {"CONFIRMED": True, "OPEN": False, "COMPLETE": False}
             except ObjectDoesNotExist:
                 return {"OPEN": True, "CONFIRMED": True, "COMPLETE": False}
@@ -55,34 +56,5 @@ def dashboard(request):
     return render(request, 'ride/dashboard.html')
 
 
-def requestPage(request):
-    return render(request, 'ride/requestPage.html')
-    # if request.method == 'GET':
-    #     if request.user.is_authenticated:
-    #         try:
-    #             driver = Driver.objects.get(user_id=request.user.id)
-    #             return render(request, 'login/edit_info.html', {'driver': driver, 'user': request.user})
-    #         except ObjectDoesNotExist:
-    #             return render(request, 'login/edit_info.html', {'user': request.user})
-    #     else:
-    #         return redirect(homepage.views.homepage)
-    # if request.method == 'POST':
-    #     if request.user.is_authenticated:
-    #         try:
-    #             driver = Driver.objects.get(user_id=request.user.id)
-    #             driver.license = request.POST.get("license")
-    #             driver.type = request.POST.get("type")
-    #             driver.passenger_number = request.POST.get("passengerNumber")
-    #             driver.special_info = request.POST.get("specialInfo")
-    #             driver.save()
-    #         except ObjectDoesNotExist:
-    #             pass
-    #         user = User.objects.get(username=request.user.username)
-    #         user.first_name = request.POST.get("firstName")
-    #         user.last_name = request.POST.get("lastName")
-    #         user.email = request.POST.get("email")
-    #         user.save()
-    #     return redirect(homepage.views.homepage)
-
-def sharingPage(request):
-    return redirect(homepage.views.homepage)
+def sharing_page(request):
+    return render(request, 'ride/share.html')

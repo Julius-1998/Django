@@ -6,5 +6,7 @@ app_name = 'ride'
 urlpatterns = [
         # path('', views.ride, name='ride'),
         path('dashboard/', views.dashboard, name='dashboard'),
-        path('requestPage/', views.ride_create.as_view(), name='ride_create'),
+        path('requestCreate/', views.ride_create.as_view(), name='ride_create'),
+        path('sharingPage/', views.sharing_page, name='share'),
+
 ]

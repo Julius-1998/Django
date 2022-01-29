@@ -25,12 +25,13 @@ SECRET_KEY = 'django-insecure-o#+3_5v4fja-e!_dtq1^-5+un5q^tqu@ql-o+2tqormdh$pgmd
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['web', 'vcm-24200.vm.duke.edu', '127.0.0.1']
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'ride',
     'driver.apps.DriverConfig',
     'login.apps.LoginConfig',
     'homepage.apps.HomepageConfig',
@@ -77,24 +78,23 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-
-        'ENGINE': 'django.db.backends.postgresql',
-
-        'NAME': 'test',
-
-        'USER': 'jz',
-
-        'PASSWORD': '100582503',
-
-        'HOST': 'localhost',
-
-        'PORT': '5432',
-
-    }
-
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.postgresql',
+    #     'NAME': 'postgres',
+    #     'USER': 'postgres',
+    #     'PASSWORD': 'postgres',
+    #     'HOST': 'localhost',
+    #     'PORT': 5432,
+    # }
+'default': {
+         'ENGINE': 'django.db.backends.postgresql',
+         'NAME': 'test',
+         'USER': 'jz',
+         'PASSWORD': '100582503',
+         'HOST': 'localhost',
+         'PORT': 5432,
+     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators

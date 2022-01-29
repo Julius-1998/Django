@@ -21,6 +21,7 @@ urlpatterns = [
     path('driver/', include('driver.urls')),
     path('login/', include('login.urls')),
     path('admin/', admin.site.urls),
+    path('ride/',include('ride.urls')),
 
 
 ]
