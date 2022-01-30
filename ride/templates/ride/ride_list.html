@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>List rides</title>
+</head>
+    <h1>All Rides</h1>
+<body>
+<table border="1">
+        <th> Pick up location </th>
+	    <th> Destination </th>
+        <th> Arrive time </th>
+        <th> Pick up location </th>
+        <th> Passenger number </th>
+
+{% if driver %}
+<h1>Driver Information</h1>
+    <tr>
+      <th>Driver</th>
+      <td>{{ driver.fullName }}</td>
+    </tr>
+    <tr>
+      <th scope="row">License</th>
+      <td>{{ driver.license }}</td>
+    </tr>
+    <tr>
+      <th scope="row Time">Vehicle Type</th>
+      <td>{{ driver.type }}</td>
+    </tr>
+
+{% else %}
+<th>Edit Ride</th>
+    {% endif %}
+
+    </tr>
+        {% for ride in rides %}
+            <tr>
+                <td>{{ride.pick_up_location}}</td>
+                <td>{{ride.destination}}</td>
+                <td>{{ride.arrive_time}}</td>
+                <td>{{ride.status}}</td>
+            </tr>
+
+    </table>
+{% endfor %}
+
+
+</body>
+</html>
