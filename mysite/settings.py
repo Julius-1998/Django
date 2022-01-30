@@ -86,14 +86,24 @@ DATABASES = {
     #     'HOST': 'localhost',
     #     'PORT': 5432,
     # }
-'default': {
-         'ENGINE': 'django.db.backends.postgresql',
-         'NAME': 'test',
-         'USER': 'jz',
-         'PASSWORD': '100582503',
-         'HOST': 'localhost',
-         'PORT': 5432,
-     }
+# 'default': {
+#          'ENGINE': 'django.db.backends.postgresql',
+#          'NAME': 'test',
+#          'USER': 'jz',
+#          'PASSWORD': '100582503',
+#          'HOST': 'localhost',
+#          'PORT': 5432,
+#      }
+
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'tmiocpgf',
+        'USER' : 'tmiocpgf',
+        'PASSWORD' : 'uU0F-Lt44sjlkBw8iVIXEhCo4ElwmD0k',
+        'HOST' : 'castor.db.elephantsql.com',
+        'PORT' : '5432'
+    }
+
 }
 
 # Password validation

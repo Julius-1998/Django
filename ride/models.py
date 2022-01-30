@@ -34,7 +34,7 @@ class Ride(models.Model):
     destination = models.CharField(max_length=500)
 
     created = models.DateTimeField(default=timezone.now)
-    arrive_time = models.DateTimeField('expected arrival date and time')
+    arrive_time = models.DateTimeField(default=timezone.now)
     special_request = models.CharField(max_length=200, blank=True)
 
     vehicle_type = models.CharField(max_length=200, null=True, choices=VehicleTypes)
