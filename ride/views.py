@@ -4,23 +4,14 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
-from django.views.generic import CreateView
+from django.views.generic import CreateView, ListView
+from django.db.models import Q
 
 import homepage
 from driver.models import Driver
 
 from ride.models import Ride,ShareInfo
 from ride.forms import RideForm, JoinRequestForm
-
-
-# def ride_create(request):
-#     if request.method == "POST":
-#         ride_form = RideForm(data=request.post)
-#         if ride_form.is_valid():
-#             new_ride = ride_form.save(commit=False)
-#             new_ride.requester = User.objects.get(id=1)
-#             new_ride.save()
-#             return render(request, 'ride/dashboard.html')
 
 
 class ride_create(LoginRequiredMixin, CreateView):
@@ -95,3 +86,12 @@ def join_ride(request, ride_id, passenger_num):
     share.save()
     messages.success(request, 'Changes successfully saved.')
     return redirect(homepage.views.homepage)
+
+
+class ride_view(LoginRequiredMixin, ListView):
+    template_name = 'ride/ride_list.html'
+
+    def get_queryset(self):
+        return Ride.objects.filter((Q(requester=self.request.user.username) | Q(sharers=self.request.user.username))
+                                   & (Q(status='confirmed') | Q(status='non-confirmed')))
+
