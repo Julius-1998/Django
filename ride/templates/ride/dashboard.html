@@ -32,7 +32,7 @@
       <nav class="nav nav-masthead justify-content-center float-md-end">
         <a class="nav-link active" aria-current="page" href="#">Home</a>
         <a class="nav-link" href="/ride/ride_view">Current Ride</a>
-        <a class="nav-link" href="#">Contact</a>
+        <a class="nav-link" href="/login/editInfo">Edit Info</a>
       </nav>
     </div>
   </header>
@@ -48,7 +48,6 @@
     </p>
     <p class="lead">
       {% if is_logged_in %}
-        <a href="/login/editInfo" class="btn btn-lg btn-secondary fw-bold border-white bg-white">EditInfo</a>
         <a href="/login/logout" class="btn btn-lg btn-secondary fw-bold border-white bg-white">Logout</a>
         <a href="/ride/dashboard" class="btn btn-lg btn-secondary fw-bold border-white bg-white">Get Ride</a>
       {% endif %}
