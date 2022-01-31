@@ -1,10 +1,14 @@
 Need to limit the input when register and login (sql injection, etc)
+    Check the information user input when login and register
 
 Input from the user should always be limited.
+    Limit the length and type of data when user input
 
 Users should not be able to see all the ride info by simply typing the url.
+    Modify the content of html by permission check
 
 User may share the ride twice if they double click on hyperlink
+    Disable the button when it's clicked
 
 Sharer should not able to change ride information
 
