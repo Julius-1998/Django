@@ -20,14 +20,11 @@ class RideForm(forms.ModelForm):
 
 
 class JoinRequestForm(forms.Form):
-    destination = forms.CharField()
+    destination = forms.CharField(required=True)
     min_arrive_time = forms.DateTimeField(widget=DateTimePickerInput,label='minArriveTime', initial=timezone.now, required=False)
     max_arrive_time = forms.DateTimeField(widget=DateTimePickerInput,label='maxArriveTime', initial=timezone.now, required=False)
     passenger_num = forms.DecimalField(max_value=4, min_value=1, label='PassengersNum', initial=1)
 
 
 class DriverSearchRequestForm(forms.Form):
-    pick_up_location = forms.CharField()
-    destination = forms.CharField()
-    min_arrive_time = forms.DateTimeField(label='minimum arrive time', initial=timezone.now, required=False)
-    # max_arrive_time = forms.DateTimeField(label='max arrive time', initial=hour_from_now, required=False)
+    special_info = forms.CharField(required=False)
