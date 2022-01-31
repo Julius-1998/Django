@@ -1,30 +1,33 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpResponse
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
-from django.core.exceptions import ObjectDoesNotExist
-from django.views.generic import CreateView, ListView, UpdateView
+from django.views.generic import ListView
 from django.db.models import Q
-from django.core.mail import send_mail
 
 import homepage
-import ride.views
 from driver.models import Driver
 
 from ride.models import Ride, ShareInfo
 from ride.forms import RideForm, JoinRequestForm, DriverSearchRequestForm
 
 
-class ride_create(LoginRequiredMixin, CreateView):
-    template_name = 'ride/request_create.html'
-    form_class = RideForm
-    queryset = Ride.objects.all()
+def ride_create(request):
+    form = RideForm
+    if request.method == 'POST':
+        form = RideForm(request.POST)
+        form.instance.requester = request.user.username
+        if form.is_valid():
+            form.save()
+            return redirect('/')
 
-    def form_valid(self, form):
-        form.instance.requester = self.request.user.username
-        form.save()
-        return redirect('/ride/ride_view')
+    return render(request, 'ride/ride_create.html', {'form': form})
+
+
+def ride_update(request, ride_id):
+    ride = Ride.objects.get(id=ride_id)
+    form = RideForm(instance=ride)
+    return render(request, 'ride/ride_create.html', {'form': form})
 
 
 def get_user(request):
@@ -78,7 +81,7 @@ def sharing_page(request):
                                         destination=destination,
                                         arrive_time__range=(min_arrive_time, max_arrive_time)
                                         )
-            return render(request, 'ride/share.html', {'form': form, 'rides': rides,'num': passenger_num})
+            return render(request, 'ride/share.html', {'form': form, 'rides': rides, 'num': passenger_num})
         # if not valid do something else
         return render(request, 'ride/share.html', {'form': form})
 
@@ -97,11 +100,6 @@ def join_ride(request, ride_id, passenger_num):
     share.save()
     messages.success(request, 'Changes successfully saved.')
     return redirect(homepage.views.homepage)
-
-
-def ride_update(request, pk):
-    form = RideForm
-    return render(request, '/ride/ride_view.html', {'form': form})
 
 
 class ride_view(LoginRequiredMixin, ListView):
