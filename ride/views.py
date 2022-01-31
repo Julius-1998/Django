@@ -1,14 +1,15 @@
 from django.contrib import messages
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.http import HttpResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
-from django.views.generic import CreateView, ListView
+from django.views.generic import CreateView, ListView, UpdateView
 from django.db.models import Q
 from django.core.mail import send_mail
 
 import homepage
+import ride.views
 from driver.models import Driver
 
 from ride.models import Ride,ShareInfo
@@ -124,4 +125,25 @@ class ride_view(LoginRequiredMixin, ListView):
     def get(self, request, *args, **kwargs):
         rides = Ride.objects.filter((Q(requester=self.request.user.username) | Q(sharers=self.request.user.username))
                                    & (Q(status='confirmed') | Q(status='non-confirmed')))
-        return render(request, self.template_name,{'rides':rides})
+        return render(request, self.template_name, {'rides': rides})
+
+
+class ride_update(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    template_name = 'ride/request_update.html'
+    form_class = RideForm
+    queryset = Ride.objects.all()
+
+    def get_object(self):
+        id_ = self.kwargs.get("id")
+        return get_object_or_404(Ride, id=id_)
+
+    def form_valid(self, form):
+        form.instance.ownerName = self.request.user.username
+        form.save()
+        return redirect(ride.views.ride_view)
+
+    def test_func(self):
+        post = self.get_object()
+        if self.request.user.username == post.ownerName:
+            return True
+        return False

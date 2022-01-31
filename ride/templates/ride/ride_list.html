@@ -4,26 +4,42 @@
     <meta charset="UTF-8">
     <title>List rides</title>
 </head>
-    <h1>All Rides</h1>
+    <h1>Current Rides</h1>
 <body>
 
 {% if rides %}
-<table>
+<table border="1">
         <th> Pick up location </th>
 	    <th> Destination </th>
         <th> Arrive time </th>
-        <th> Pick up location </th>
-        <th> Passenger number </th>
+        <th> Status </th>
+        <th> Special Request </th>
+        <th> Driver </th>
+        <th> Vehicle Type </th>
+        <th> More </th>
     </tr>
     {% for ride in rides %}
+        {% if ride.status != 'completed' %}
             <tr>
                 <td>{{ride.pick_up_location}}</td>
                 <td>{{ride.destination}}</td>
                 <td>{{ride.arrive_time}}</td>
                 <td>{{ride.status}}</td>
+                <td>{{ride.special_request}}</td>
+                {% if ride.status == 'confirmed' %}
+                    <td>{{ ride.driver }}</td>
+                    <td>{{ ride.vehicle_type }}</td>
+                    <td>---</td>
+                {% else %}
+                    <td>---</td>
+                    <td>---</td>
+                    <td><a href="/ride/request_update">Edit Ride</a></td>
+                {% endif %}
+                {% endif %}
             </tr>
     {% endfor %}
 </table>
 {% endif %}
 </body>
 </html>
+
