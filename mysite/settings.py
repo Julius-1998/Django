@@ -78,14 +78,14 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
 DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.postgresql',
-    #     'NAME': 'postgres',
-    #     'USER': 'postgres',
-    #     'PASSWORD': 'postgres',
-    #     'HOST': 'localhost',
-    #     'PORT': 5432,
-    # }
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'postgres',
+        'USER': 'postgres',
+        'PASSWORD': 'postgres',
+        'HOST': 'db',
+        'PORT': 5432,
+    }
     # 'default': {
     #          'ENGINE': 'django.db.backends.postgresql',
     #          'NAME': 'test',
@@ -95,14 +95,14 @@ DATABASES = {
     #          'PORT': 5432,
     #      }
 
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'tmiocpgf',
-        'USER' : 'tmiocpgf',
-        'PASSWORD' : 'uU0F-Lt44sjlkBw8iVIXEhCo4ElwmD0k',
-        'HOST' : 'castor.db.elephantsql.com',
-        'PORT' : '5432'
-    }
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.postgresql',
+    #     'NAME': 'tmiocpgf',
+    #     'USER' : 'tmiocpgf',
+    #     'PASSWORD' : 'uU0F-Lt44sjlkBw8iVIXEhCo4ElwmD0k',
+    #     'HOST' : 'castor.db.elephantsql.com',
+    #     'PORT' : '5432'
+    # }
 
 }
 
