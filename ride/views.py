@@ -27,6 +27,14 @@ def ride_create(request):
 def ride_update(request, ride_id):
     ride = Ride.objects.get(id=ride_id)
     form = RideForm(instance=ride)
+    if request.method == 'POST':
+        form = RideForm(request.POST, instance=ride)
+        form.instance.requester = request.user.username
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Changes successfully saved.')
+            return redirect('/')
+
     return render(request, 'ride/ride_create.html', {'form': form})
 
 
