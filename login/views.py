@@ -27,8 +27,8 @@ def login_view(request):
             login(request, user)
             return redirect(homepage.views.homepage)
         else:
-            # TODO: Instead of returning Http404, should pop out a warning instead
-            raise Http404(username, password, "User does not exist or Password is wrong")
+            messages.warning(request, "Wrong username or password! Please try again")
+            return redirect(homepage.views.homepage)
 
 
 def logout_view(request):

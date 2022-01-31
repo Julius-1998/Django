@@ -108,14 +108,25 @@ def confirm_ride(request,ride_id):
     messages.success(request, 'Ride successfully confirmed.')
     # send emails to owner and other sharer
     requester_mail = User.objects.get(username=ride.requester).email
-    sharer_mail = User.objects.get(username=ride.sharers).email
     send_mail(
         'Message from Uber',
         'Your ride is confirmed.',
         'sjzhou5292@gmail.com',
-        [requester_mail, sharer_mail],
+        [requester_mail],
         fail_silently=True,
     )
+    if ride.sharers is not None:
+        try:
+            sharer_mail = User.objects.get(username=ride.sharers).email
+            send_mail(
+                'Message from Uber',
+                'Your ride is confirmed.',
+                'sjzhou5292@gmail.com',
+                [sharer_mail],
+                fail_silently=True,
+            )
+        except ObjectDoesNotExist:
+            pass
     return redirect(homepage.views.homepage)
 
 

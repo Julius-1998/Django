@@ -12,11 +12,6 @@ class Ride(models.Model):
         ('Black', 'Black'),
     )
 
-    SpecialRequests = (
-        ('Quiet', 'Quiet'),
-        ('Sanitized', 'Sanitized'),
-    )
-
     RideStatus = (
         ('non-confirmed', 'non-confirmed'),
         ('confirmed', 'confirmed'),
@@ -35,9 +30,9 @@ class Ride(models.Model):
 
     created = models.DateTimeField(default=timezone.now)
     arrive_time = models.DateTimeField(default=timezone.now)
-    special_request = models.CharField(max_length=200, blank=True, choices=SpecialRequests)
+    special_request = models.CharField(max_length=200, blank=True)
 
-    vehicle_type = models.CharField(max_length=200, blank=True, choices=VehicleTypes)
+    vehicle_type = models.CharField(max_length=200, blank=True, choices=VehicleTypes,default="")
     is_sharable = models.BooleanField(null=True)
     is_share_found = models.BooleanField(default=False, null=True)
     status = models.CharField(null=True, max_length=120, choices=RideStatus, default='non-confirmed')

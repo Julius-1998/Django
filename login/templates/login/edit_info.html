@@ -45,10 +45,10 @@
 <!--      <input maxlength="10" class="form-control" id = "type" name="type" placeholder="Type of the car">-->
       <select id="type" name="type" required>
           <option value="" disabled selected hidden>Please Choose Cartype...</option>
-          <option value="Poor">Poor</option>
-          <option value="XL">XL</option>
-          <option value="PetAccept">PetAccept</option>
-          <option value="Black">Black</option>
+          <option value="Poor"{% if driver.type == 'Poor'%} selected = "selected" {% endif %} >Poor</option>
+          <option value="XL"{% if driver.type == 'XL'%} selected = "selected" {% endif %} >XL</option>
+          <option value="PetAccept"{% if driver.type == 'PetAccept'%} selected = "selected" {% endif %} >PetAccept</option>
+          <option value="Black"{% if driver.type == 'Black'%} selected = "selected" {% endif %} >Black</option>
         </select>
     </div>
     <div class="form-floating">
