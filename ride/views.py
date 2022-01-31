@@ -12,7 +12,7 @@ import homepage
 from driver.models import Driver
 
 from ride.models import Ride,ShareInfo
-from ride.forms import RideForm, JoinRequestForm, DriverSearchRequestForm
+from ride.forms import RideForm, JoinRequestForm
 
 
 class ride_create(LoginRequiredMixin, CreateView):
@@ -52,26 +52,17 @@ def dashboard(request):
 
 
 def driver_ride_list(request):
-    if request.method == 'GET':
-        form = DriverSearchRequestForm
-        return render(request, 'ride/driver_ride_list.html', {'form': form})
-    if request.method == 'POST':
-        form = DriverSearchRequestForm(request.POST)
-        if form.is_valid():
-            special_request = form.cleaned_data['special_request']
-            driver = Driver.objects.get(user=request.user.id)
-            passenger_number = driver.passenger_number
-            car_type = driver.type
-            if special_request == "":
-                rides = Ride.objects.filter(status='non-confirmed',
-                                            passenger_number__lte=passenger_number,
-                                            vehicle_type=car_type)
-            else:
-                rides = Ride.objects.filter(status='non-confirmed',
-                                            special_request=special_request,
-                                            passenger_number__lte=passenger_number,
-                                            vehicle_type=car_type)
-        return render(request, 'ride/driver_ride_list.html', {'form': form, 'rides': rides})
+    driver = Driver.objects.get(user=request.user.id)
+    passenger_number = driver.passenger_number
+    car_type = driver.type
+    special_request = driver.special_info
+    print(special_request)
+    rides = Ride.objects.filter(Q(status='non-confirmed')&
+                               (Q(special_request=special_request)|Q(special_request=''))&
+                                Q(passenger_number__lte=passenger_number)&
+                                (Q(vehicle_type=car_type)|Q(vehicle_type=''))
+    )
+    return render(request, 'ride/driver_ride_list.html', {'rides': rides})
 
 
 def sharing_page(request):
@@ -97,18 +88,33 @@ def sharing_page(request):
 
 
 def join_ride(request, ride_id, passenger_num):
-    message = 'Ride joined'
     ride = Ride.objects.get(id=ride_id)
     # add the sharer's passenger num to the ride
     ride.passenger_number += passenger_num
     ride.is_share_found = True
-    ride.save()
     user = User.objects.get(id=request.user.id)
-    share = ShareInfo()
-    share.ride = ride
-    share.sharer = user
-    share.save()
+    ride.sharers = user.username
+    ride.save()
     messages.success(request, 'Changes successfully saved.')
+    return redirect(homepage.views.homepage)
+
+
+def confirm_ride(request,ride_id):
+    ride = Ride.objects.get(id=ride_id)
+    ride.status = 'confirmed'
+    ride.driver = get_user(request)
+    ride.save()
+    messages.success(request, 'Ride successfully confirmed.')
+    # send emails to owner and other sharer
+    requester_mail = User.objects.get(username=ride.requester).email
+    sharer_mail = User.objects.get(username=ride.sharers).email
+    send_mail(
+        'Message from Uber',
+        'Your ride is confirmed.',
+        'sjzhou5292@gmail.com',
+        [requester_mail, sharer_mail],
+        fail_silently=True,
+    )
     return redirect(homepage.views.homepage)
 
 

@@ -25,6 +25,3 @@ class JoinRequestForm(forms.Form):
     max_arrive_time = forms.DateTimeField(widget=DateTimePickerInput,label='maxArriveTime', initial=timezone.now, required=False)
     passenger_num = forms.DecimalField(max_value=4, min_value=1, label='PassengersNum', initial=1)
 
-
-class DriverSearchRequestForm(forms.Form):
-    special_info = forms.CharField(required=False)

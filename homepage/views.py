@@ -17,13 +17,7 @@ def homepage(request):
                                                           'first_name': first_name,
                                                           'is_driver': is_driver})
     else:
-        # send_mail(
-        #     'Subject here',
-        #     'Here is the message.',
-        #     'sjzhou5292@gmail.com',
-        #     ['sz232@duke.edu'],
-        #     fail_silently=False,
-        # )
+
         return render(request, 'homepage/homepage.html')
 
 

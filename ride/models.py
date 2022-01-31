@@ -37,7 +37,7 @@ class Ride(models.Model):
     arrive_time = models.DateTimeField(default=timezone.now)
     special_request = models.CharField(max_length=200, blank=True)
 
-    vehicle_type = models.CharField(max_length=200, null=True, choices=VehicleTypes)
+    vehicle_type = models.CharField(max_length=200, blank=True, choices=VehicleTypes)
     is_sharable = models.BooleanField(null=True)
     is_share_found = models.BooleanField(default=False, null=True)
     status = models.CharField(null=True, max_length=120, choices=RideStatus, default='non-confirmed')
