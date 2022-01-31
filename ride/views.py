@@ -58,7 +58,6 @@ def driver_ride_list(request):
     passenger_number = driver.passenger_number
     car_type = driver.type
     special_request = driver.special_info
-    print(special_request)
     rides = Ride.objects.filter(Q(status='non-confirmed')&
                                (Q(special_request=special_request)|Q(special_request=''))&
                                 Q(passenger_number__lte=passenger_number)&
@@ -104,7 +103,7 @@ def join_ride(request, ride_id, passenger_num):
 def confirm_ride(request,ride_id):
     ride = Ride.objects.get(id=ride_id)
     ride.status = 'confirmed'
-    ride.driver = get_user(request)
+    ride.driver = request.user.username
     ride.save()
     messages.success(request, 'Ride successfully confirmed.')
     # send emails to owner and other sharer
@@ -129,22 +128,18 @@ class ride_view(LoginRequiredMixin, ListView):
         return render(request, self.template_name, {'rides': rides})
 
 
-class ride_update(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
-    template_name = 'ride/request_update.html'
-    form_class = RideForm
-    queryset = Ride.objects.all()
+def driver_confirmed_order_list(request):
+    username = request.user.username
+    driver = Driver.objects.get(user=request.user.id)
+    rides = Ride.objects.filter(Q(status='confirmed') &
+                                Q(driver=username)
+                                )
+    return render(request, 'ride/driver_confirmed_order_list.html', {'rides': rides})
 
-    def get_object(self):
-        id_ = self.kwargs.get("id")
-        return get_object_or_404(Ride, id=id_)
 
-    def form_valid(self, form):
-        form.instance.ownerName = self.request.user.username
-        form.save()
-        return redirect(ride.views.ride_view)
-
-    def test_func(self):
-        post = self.get_object()
-        if self.request.user.username == post.ownerName:
-            return True
-        return False
+def complete_ride(request, ride_id):
+    ride = Ride.objects.get(id=ride_id)
+    ride.status = 'completed'
+    ride.save()
+    messages.success(request, 'Ride successfully completed.')
+    return redirect(homepage.views.homepage)

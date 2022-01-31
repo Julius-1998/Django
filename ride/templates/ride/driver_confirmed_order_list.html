@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>List confirmed rides</title>
+</head>
+<body>
+
+{% if rides %}
+<table>
+    <tr>
+        <th>Arrive time</th>
+        <th>Pick up location</th>
+        <th>Passenger number</th>
+        <th>Detail</th>
+        <th>Complete?</th>
+
+    </tr>
+        {% for ride in rides %}
+            <tr>
+                <td>{{ride.arrive_time}}</td>
+                <td>{{ride.pick_up_location}}</td>
+                <td>{{ride.passenger_number}}</td>
+                <td><a href="/ride/ride_update/{{ride.id}}">Edit</a></td>
+                <td><a href="/ride/complete_ride/{{ride.id}}">Complete!</a></td>
+            </tr>
+        {% endfor %}
+
+</table>
+{% else %}
+    <p>Please check the information above. Or no rides are available now.</p>
+{% endif %}
+
+</body>
+</html>

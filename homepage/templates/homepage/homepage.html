@@ -60,6 +60,14 @@
         <a href="/ride/ride_view" class="btn btn-lg btn-secondary fw-bold border-white bg-white">Current Ride</a>
       {% endif %}
     </p>
+    <p class="lead">
+      {% if is_driver %}
+      <br>Hello driver!
+      <br>
+        <a href="/ride/driver_ride_list" class="btn btn-lg btn-secondary fw-bold border-white bg-white">Search new order</a>
+        <a href="/ride/driver_confirmed_order_list" class="btn btn-lg btn-secondary fw-bold border-white bg-white">View confirmed orders</a>
+      {% endif %}
+    </p>
   </main>
 
   <footer class="mt-auto text-white-50">
