@@ -43,3 +43,10 @@ body {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
+
+.form-signin select{
+    height: calc(3.5rem + 2px);
+    line-height: 1.25;
+    padding: 1rem 0.75rem;
+    width: 100%;
+}

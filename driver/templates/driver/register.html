@@ -24,20 +24,28 @@
         {% endif %}
     <h1 class="h3 mb-3 fw-normal">Register as a driver now</h1>
     <div class="form-floating">
-      <input maxlength="10" class="form-control" id = "license" name="license" placeholder="License">
+      <input maxlength="10" class="form-control" id = "license" name="license" placeholder="License" required>
       <label for="license">License</label>
     </div>
+
+
     <div class="form-floating">
-      <input maxlength="10" class="form-control" id = "type" name="type" placeholder="Type of the car">
-      <label for="type">Type of the car</label>
-    </div>
-    <div class="form-floating">
-      <input type="number" max="100" min="1" class="form-control"  id = "passengerNumber" name="passengerNumber" placeholder="Number of passenger">
+      <input type="number" max="100" min="1" class="form-control"  id = "passengerNumber" name="passengerNumber" placeholder="Number of passenger" required>
       <label for="passengerNumber">Number of passenger</label>
     </div>
     <div class="form-floating">
-      <input maxlength="100" class="form-control" id = "specialInfo" name="specialInfo" placeholder="Special Info">
+      <input maxlength="100" class="form-control" id = "specialInfo" name="specialInfo" placeholder="Special Info" >
       <label for="specialInfo">Special Info</label>
+    </div>
+     <div class="form-floating">
+<!--      <input maxlength="10" class="form-control" id = "type" name="type" placeholder="Type of the car">-->
+      <select id="type" name="type"required>
+          <option value="" disabled selected hidden>Please Choose Cartype...</option>
+          <option value="Poor">Poor</option>
+          <option value="XL">XL</option>
+          <option value="PetAccept">PetAccept</option>
+          <option value="Black">Black</option>
+        </select>
     </div>
     <button class="w-100 btn btn-lg btn-primary" type="submit">Register</button>
   </form>

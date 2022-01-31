@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.contrib.auth.models import User
 # Create your views here.
 from driver.models import Driver
+from django.core.mail import send_mail
 
 
 def homepage(request):
@@ -16,6 +17,13 @@ def homepage(request):
                                                           'first_name': first_name,
                                                           'is_driver': is_driver})
     else:
+        # send_mail(
+        #     'Subject here',
+        #     'Here is the message.',
+        #     'sjzhou5292@gmail.com',
+        #     ['sz232@duke.edu'],
+        #     fail_silently=False,
+        # )
         return render(request, 'homepage/homepage.html')
 
 

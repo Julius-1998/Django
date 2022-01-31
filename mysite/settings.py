@@ -86,14 +86,14 @@ DATABASES = {
     #     'HOST': 'localhost',
     #     'PORT': 5432,
     # }
-# 'default': {
-#          'ENGINE': 'django.db.backends.postgresql',
-#          'NAME': 'test',
-#          'USER': 'jz',
-#          'PASSWORD': '100582503',
-#          'HOST': 'localhost',
-#          'PORT': 5432,
-#      }
+    # 'default': {
+    #          'ENGINE': 'django.db.backends.postgresql',
+    #          'NAME': 'test',
+    #          'USER': 'jz',
+    #          'PASSWORD': '100582503',
+    #          'HOST': 'localhost',
+    #          'PORT': 5432,
+    #      }
 
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -146,3 +146,10 @@ STATIC_URL = 'templates/'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'sjzhou5292@gmail.com'
+EMAIL_HOST_PASSWORD = 'yqkwgtpswsqcjpts' #past the key or password app here
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = 'default from email'
