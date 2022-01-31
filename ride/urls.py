@@ -11,7 +11,7 @@ urlpatterns = [
         path('joinRide/<int:ride_id>/<int:passenger_num>', views.join_ride, name='join_ride'),
         path('ride_view/', views.ride_view.as_view(), name='ride_view'),
         path('driver_ride_list/', views.driver_ride_list, name='driver_ride_list')
-        path('request_update/', views.ride_update.as_view(), name='ride_update')
+        path('ride_update/<str:ride_id>/', views.ride_update, name='ride_update')
         path('confirm_ride/<int:ride_id>/', views.confirm_ride, name='confirm_ride'),
 
 ]

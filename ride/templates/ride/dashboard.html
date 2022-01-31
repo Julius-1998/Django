@@ -30,9 +30,9 @@
     <div>
       <h3 href="" class="float-md-start mb-0" >Navigation</h3>
       <nav class="nav nav-masthead justify-content-center float-md-end">
-        <a class="nav-link active" aria-current="page" href="#">Home</a>
-        <a class="nav-link" href="/ride/ride_view">Current Ride</a>
-        <a class="nav-link" href="#">Contact</a>
+        <a class="nav-link active" href="/">Home</a>
+        <a class="nav-link" href="/login/editInfo">Edit Info</a>
+        <a class="nav-link" href="/login/logout">Log Out</a>
       </nav>
     </div>
   </header>
@@ -42,14 +42,13 @@
     <p class="lead">ECE 568 Robust Server</p>
     <p class="lead">Request Now!</p>
     <p class="lead">
-       <a href="/ride/requestCreate" class="btn btn-lg btn-secondary fw-bold border-white bg-white">Start New</a>
+       <a href="/ride/ride_create" class="btn btn-lg btn-secondary fw-bold border-white bg-white">Start New</a>
        <a href="/ride/sharingPage" class="btn btn-lg btn-secondary fw-bold border-white bg-white">Search Sharing</a>
 
     </p>
     <p class="lead">
       {% if is_logged_in %}
-        <a href="/login/editInfo" class="btn btn-lg btn-secondary fw-bold border-white bg-white">EditInfo</a>
-        <a href="/login/logout" class="btn btn-lg btn-secondary fw-bold border-white bg-white">Logout</a>
+        <a href="/ride/ride_view" class="btn btn-lg btn-secondary fw-bold border-white bg-white">Current Ride</a>
         <a href="/ride/dashboard" class="btn btn-lg btn-secondary fw-bold border-white bg-white">Get Ride</a>
       {% endif %}
     </p>

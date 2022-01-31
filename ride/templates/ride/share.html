@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <title>This is the share Page</title>
 </head>
+    <h1>Search Sharing Ride</h1>
 <body>
 <form action="" method="post">
     {% csrf_token %}
-    {{form}}
+    {{form.as_p}}
     <input type="submit" value="submit"></input>
 </form>
 

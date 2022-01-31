@@ -12,42 +12,43 @@ import homepage
 import ride.views
 from driver.models import Driver
 
-from ride.models import Ride,ShareInfo
+from ride.models import Ride, ShareInfo
 from ride.forms import RideForm, JoinRequestForm
 
 
-class ride_create(LoginRequiredMixin, CreateView):
-    template_name = 'ride/request_create.html'
-    form_class = RideForm
-    queryset = Ride.objects.all()
+def ride_create(request):
+    form = RideForm
+    if request.method == 'POST':
+        form = RideForm(request.POST)
+        form.instance.requester = request.user.username
+        if form.is_valid():
+            form.save()
+            return redirect('/')
 
-    def form_valid(self, form):
-        form.instance.ownerName = self.request.user.username
-        form.save()
-        # return super().form_valid(form)
-        return redirect(homepage.views.homepage)
+    return render(request, 'ride/ride_create.html', {'form': form})
+
+
+def ride_update(request, ride_id):
+    ride = Ride.objects.get(id=ride_id)
+    form = RideForm(instance=ride)
+    if request.method == 'POST':
+        form = RideForm(request.POST, instance=ride)
+        form.instance.requester = request.user.username
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Changes successfully saved.')
+            return redirect('/')
+
+    return render(request, 'ride/ride_create.html', {'form': form})
 
 
 def get_user(request):
-    return request.user.username
+    return request.user.id
 
 
 def dashboard(request):
     user = get_user(request)
-    user_object = User.objects.get(username=user)
-
-    def infer_allowed_statuses(request):
-        if len(request.GET) == 0:
-            try:
-                driver = Driver.objects.get(driver=user_object)
-                return {"CONFIRMED": True, "OPEN": False, "COMPLETE": False}
-            except ObjectDoesNotExist:
-                return {"OPEN": True, "CONFIRMED": True, "COMPLETE": False}
-        else:
-            ret = {}
-            for k in ['CONFIRMED', 'OPEN', 'COMPLETE']:
-                ret[k] = True if k in request.GET else False
-            return ret
+    User.objects.get(id=user)
 
     return render(request, 'ride/dashboard.html')
 
