@@ -1,0 +1,11 @@
+Need to limit the input when register and login (sql injection, etc)
+
+Input from the user should always be limited.
+
+Users should not be able to see all the ride info by simply typing the url.
+
+User may share the ride twice if they double click on hyperlink
+
+Sharer should not able to change ride information
+
+Special info should be free text instead of build-in choices.
