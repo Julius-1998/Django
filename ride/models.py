@@ -35,7 +35,7 @@ class Ride(models.Model):
 
     created = models.DateTimeField(default=timezone.now)
     arrive_time = models.DateTimeField(default=timezone.now)
-    special_request = models.CharField(max_length=200, blank=True)
+    special_request = models.CharField(max_length=200, blank=True, choices=SpecialRequests)
 
     vehicle_type = models.CharField(max_length=200, null=True, choices=VehicleTypes)
     is_sharable = models.BooleanField(null=True)

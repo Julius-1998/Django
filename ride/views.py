@@ -1,5 +1,5 @@
 from django.contrib import messages
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
@@ -12,7 +12,7 @@ import homepage
 import ride.views
 from driver.models import Driver
 
-from ride.models import Ride,ShareInfo
+from ride.models import Ride, ShareInfo
 from ride.forms import RideForm, JoinRequestForm, DriverSearchRequestForm
 
 
@@ -22,32 +22,18 @@ class ride_create(LoginRequiredMixin, CreateView):
     queryset = Ride.objects.all()
 
     def form_valid(self, form):
-        form.instance.ownerName = self.request.user.username
+        form.instance.requester = self.request.user.username
         form.save()
-        # return super().form_valid(form)
-        return redirect(homepage.views.homepage)
+        return redirect('/ride/ride_view')
 
 
 def get_user(request):
-    return request.user.username
+    return request.user.id
 
 
 def dashboard(request):
     user = get_user(request)
-    user_object = User.objects.get(username=user)
-
-    def infer_allowed_statuses(request):
-        if len(request.GET) == 0:
-            try:
-                driver = Driver.objects.get(driver=user_object)
-                return {"CONFIRMED": True, "OPEN": False, "COMPLETE": False}
-            except ObjectDoesNotExist:
-                return {"OPEN": True, "CONFIRMED": True, "COMPLETE": False}
-        else:
-            ret = {}
-            for k in ['CONFIRMED', 'OPEN', 'COMPLETE']:
-                ret[k] = True if k in request.GET else False
-            return ret
+    User.objects.get(id=user)
 
     return render(request, 'ride/dashboard.html')
 
@@ -113,6 +99,11 @@ def join_ride(request, ride_id, passenger_num):
     return redirect(homepage.views.homepage)
 
 
+def ride_update(request, pk):
+    form = RideForm
+    return render(request, '/ride/ride_view.html', {'form': form})
+
+
 class ride_view(LoginRequiredMixin, ListView):
     template_name = 'ride/ride_list.html'
 
@@ -122,22 +113,4 @@ class ride_view(LoginRequiredMixin, ListView):
         return render(request, self.template_name, {'rides': rides})
 
 
-class ride_update(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
-    template_name = 'ride/request_update.html'
-    form_class = RideForm
-    queryset = Ride.objects.all()
 
-    def get_object(self):
-        id_ = self.kwargs.get("id")
-        return get_object_or_404(Ride, id=id_)
-
-    def form_valid(self, form):
-        form.instance.ownerName = self.request.user.username
-        form.save()
-        return redirect(ride.views.ride_view)
-
-    def test_func(self):
-        post = self.get_object()
-        if self.request.user.username == post.ownerName:
-            return True
-        return False
